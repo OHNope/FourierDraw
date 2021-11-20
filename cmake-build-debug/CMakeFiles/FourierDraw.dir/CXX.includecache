@@ -7,6 +7,18 @@
 #IncludeRegexTransform: 
 
 /Users/xby/CLionProjects/FourierDraw/Delaunay.hpp
+algorithm
+-
+cmath
+-
+cstring
+-
+list
+-
+utility
+-
+vector
+-
 
 /Users/xby/CLionProjects/FourierDraw/DouglasPeucker.hpp
 
@@ -15,12 +27,12 @@
 /Users/xby/CLionProjects/FourierDraw/main.cpp
 ./main.hpp
 /Users/xby/CLionProjects/FourierDraw/main.hpp
-./FFT.hpp
-/Users/xby/CLionProjects/FourierDraw/FFT.hpp
 ./Delaunay.hpp
 /Users/xby/CLionProjects/FourierDraw/Delaunay.hpp
 ./DouglasPeucker.hpp
 /Users/xby/CLionProjects/FourierDraw/DouglasPeucker.hpp
+./FFT.hpp
+/Users/xby/CLionProjects/FourierDraw/FFT.hpp
 
 /Users/xby/CLionProjects/FourierDraw/main.hpp
 opencv2/highgui/highgui_c.h

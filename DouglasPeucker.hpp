@@ -5,14 +5,6 @@
 #ifndef FOURIERDRAW_DOUGLASPEUCKER_HPP
 #define FOURIERDRAW_DOUGLASPEUCKER_HPP
 
-typedef struct stPoint {
-    double x;
-    double y;
-    int isSaved; // 是否为曲线拟合的保留点
-
-    stPoint(double a = 0, double b = 0, int c = 0) : x(a), y(b), isSaved(c){};
-} stPoint;
-
 float fast_inverse_sqrt(float x) {
     float half_x = 0.5 * x;
     int i = *((int *)&x);             // 以整数方式读取X
@@ -22,15 +14,15 @@ float fast_inverse_sqrt(float x) {
     return x;
 }
 
-double perpendicularDistance(stPoint curPoint, double A, double B, double C) {
+double perpendicularDistance(Point curPoint, double A, double B, double C) {
     double distance = (A * curPoint.x + B * curPoint.y + C) *
                       fast_inverse_sqrt(A * A + B * B);
     return distance < 0 ? -distance : distance;
 }
 
 // DouglasPeucker 算法
-int DouglasPeucker(vector<stPoint> &Points, int Start, int End,
-                   double epsilon) {
+void DouglasPeucker(vector<Point> &Points, vector<D_Point> &newPoints,
+                    int Start, int End, double epsilon) {
     double dMax = 0;
     int index = 0;
     int iter;
@@ -57,13 +49,14 @@ int DouglasPeucker(vector<stPoint> &Points, int Start, int End,
 
     if (dMax > epsilon) {
         // cout << "dMax Distance Index = " << index << endl;
-        DouglasPeucker(Points, Start, index, epsilon);
-        DouglasPeucker(Points, index, End, epsilon);
+        DouglasPeucker(Points, newPoints, Start, index, epsilon);
+        DouglasPeucker(Points, newPoints, index, End, epsilon);
     } else {
-        (Points[Start]).isSaved = 1;
-        (Points[End]).isSaved = 1;
+        newPoints.push_back(
+            D_Point(Points[Start].x, Points[Start].y, newPoints.size()));
+        newPoints.push_back(
+            D_Point(Points[End].x, Points[End].y, newPoints.size()));
     }
-    return 0;
 }
 
-#endif //FOURIERDRAW_DOUGLASPEUCKER_HPP
+#endif // FOURIERDRAW_DOUGLASPEUCKER_HPP

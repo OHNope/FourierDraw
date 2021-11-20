@@ -25,18 +25,23 @@ int main() {
     vector<Vec4i> hierarchy;
     findContours(srcImage, contours, hierarchy, RETR_TREE, CHAIN_APPROX_NONE,
                  Point());
-    vector<stPoint> points;
+    vector<Point> points;
+    vector<D_Point> douglas;
     for (int i = 0; i < contours.size(); i++)
         for (int j = 0; j < contours[i].size(); j++)
-            points.push_back(stPoint(contours[i][j].x, contours[i][j].y));
-    DouglasPeucker(points, 0, points.size() - 1, 0.01);
-    Subdiv2D subdiv(rect);
-    vector<Vec6f> triangleList;
-    for (int i = 0; i < points.size(); i++)
-        if (points[i].isSaved != 0)
-            subdiv.insert(Point(points[i].x, points[i].y));
-    delaunay(srcImage, subdiv, Scalar(255));
+            points.push_back(Point(contours[i][j].x, contours[i][j].y));
+    DouglasPeucker(points, douglas, 0, points.size() - 1, 0.01);
+    points.clear();
+    Delaunay dela;
+    dela.init(douglas);
+    std::vector<std::pair<int, int>> test = dela.getEdge();
+    for (int i = 0; i < test.size(); i++)
+        line(srcImage,
+             Point(douglas[test[i].first].x, douglas[test[i].first].y),
+             Point(douglas[test[i].second].x, douglas[test[i].second].y),
+             Scalar(255), 1, CV_AA, 0);
     imshow("test1", srcImage);
     waitKey(0);
+
     return 0;
 }
